@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h2>Modifier utilisateur</h2>
+
+    <form method="post">
+
+        <div class="mb-2">
+            <label>Nom</label>
+            <input type="text" name="name" class="form-control"
+                   value="{{ user.name }}">
+        </div>
+
+        <div class="mb-2">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control"
+                   value="{{ user.email }}">
+        </div>
+
+        <div class="mb-2">
+            <label>Password</label>
+            <input type="text" name="password" class="form-control"
+                   value="{{ user.password }}">
+        </div>
+
+        <div class="mb-2">
+            <label>Role</label>
+            <input type="text" name="role" class="form-control"
+                   value="{{ user.role }}">
+        </div>
+
+        <button class="btn btn-success">Enregistrer</button>
+        <a href="{{ path('users_list') }}" class="btn btn-secondary">Retour</a>
+
+    </form>
+
+</div>
+{% endblock %}

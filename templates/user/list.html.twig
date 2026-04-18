@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+<h2 class="mb-3">Liste des utilisateurs</h2>
+
+<!-- 🔍 SEARCH -->
+<form method="get" class="mb-3 d-flex gap-2">
+    <input type="text" name="search" class="form-control"
+           placeholder="Rechercher...">
+    <button class="btn btn-primary">Search</button>
+</form>
+
+<!-- ➕ ADD -->
+<div class="card p-3 mb-3">
+
+    <form method="post" action="{{ path('user_add') }}">
+        <input type="text" name="name" class="form-control mb-2" placeholder="Nom">
+        <input type="email" name="email" class="form-control mb-2" placeholder="Email">
+        <input type="password" name="password" class="form-control mb-2" placeholder="Password">
+
+        <button class="btn btn-success">Ajouter</button>
+    </form>
+
+</div>
+
+<!-- 📋 TABLE -->
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+
+            <td class="d-flex gap-2">
+
+                <a href="{{ path('user_edit', {id: user.id}) }}"
+                   class="btn btn-warning btn-sm">
+                    Modifier
+                </a>
+
+                <a href="{{ path('user_delete', {id: user.id}) }}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Supprimer ?')">
+                    Supprimer
+                </a>
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
