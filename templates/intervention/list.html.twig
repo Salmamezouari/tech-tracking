@@ -6,14 +6,14 @@
 
 <h2 class="mb-3">Liste des interventions</h2>
 
-<!-- 🔍 SEARCH -->
+<!--  SEARCH -->
 <form method="get" class="mb-3 d-flex gap-2">
     <input type="text" name="search" class="form-control"
            placeholder="Rechercher par titre ou client...">
     <button class="btn btn-primary">Search</button>
 </form>
 
-<!-- ➕ ADD -->
+<!--  ADD -->
 <form method="post" action="{{ path('intervention_add') }}" class="mb-4">
 
     <input type="text" name="title" class="form-control mb-2" placeholder="Titre" required>
@@ -22,17 +22,17 @@
 
     <input type="text" name="address" class="form-control mb-2" placeholder="Adresse">
 
-    <!-- 📊 STATUS -->
+    <!--  STATUS -->
     <select name="status" class="form-control mb-2">
         <option value="pending">Pending</option>
         <option value="in_progress">In progress</option>
         <option value="done">Done</option>
     </select>
 
-    <!-- 📅 DATE -->
+    <!--  DATE -->
     <input type="datetime-local" name="scheduled_date" class="form-control mb-2" required>
 
-    <!-- 👨‍🔧 TECHNICIEN -->
+    <!--  TECHNICIEN -->
     <select name="tech" class="form-control mb-2">
         <option value="">Choisir technicien</option>
 
@@ -46,7 +46,7 @@
     <button class="btn btn-success">Ajouter</button>
 </form>
 
-<!-- 📋 TABLE -->
+<!--  TABLE -->
 <table class="table table-bordered table-hover">
 
     <thead class="table-dark">
@@ -70,7 +70,7 @@
             <td>{{ i.clientName }}</td>
             <td>{{ i.address }}</td>
 
-            <!-- ✅ STATUS CORRIGÉ -->
+            
             <td>
                 {% if i.status == 'pending' %}
                     <span class="badge bg-warning">Pending</span>
@@ -93,13 +93,13 @@
 
             <td class="d-flex gap-2">
 
-                <!-- ✏️ EDIT -->
+                <!--  EDIT -->
                 <a href="{{ path('intervention_edit', {id: i.id}) }}"
                    class="btn btn-warning btn-sm">
                     Modifier
                 </a>
 
-                <!-- 🗑️ DELETE -->
+                <!--  DELETE -->
                 <a href="{{ path('intervention_delete', {id: i.id}) }}"
                    class="btn btn-danger btn-sm"
                    onclick="return confirm('Supprimer ?')">

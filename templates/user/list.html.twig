@@ -4,65 +4,87 @@
 
 {% block body %}
 
-<h2 class="mb-3">Liste des utilisateurs</h2>
+<div class="container mt-4">
 
-<!-- 🔍 SEARCH -->
-<form method="get" class="mb-3 d-flex gap-2">
-    <input type="text" name="search" class="form-control"
-           placeholder="Rechercher...">
-    <button class="btn btn-primary">Search</button>
-</form>
+    <h2 class="mb-3">Liste des utilisateurs</h2>
 
-<!-- ➕ ADD -->
-<div class="card p-3 mb-3">
-
-    <form method="post" action="{{ path('user_add') }}">
-        <input type="text" name="name" class="form-control mb-2" placeholder="Nom">
-        <input type="email" name="email" class="form-control mb-2" placeholder="Email">
-        <input type="password" name="password" class="form-control mb-2" placeholder="Password">
-
-        <button class="btn btn-success">Ajouter</button>
+    <!--  SEARCH -->
+    <form method="get" class="mb-3 d-flex gap-2">
+        <input type="text" name="search" class="form-control"
+               placeholder="Rechercher par nom ou email...">
+        <button class="btn btn-primary">Search</button>
     </form>
 
-</div>
+    <!--  ADD USER -->
+    <button class="btn btn-success mb-3" data-bs-toggle="collapse" data-bs-target="#addForm">
+        Ajouter utilisateur
+    </button>
 
-<!-- 📋 TABLE -->
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-    <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
+    <div id="addForm" class="collapse mb-3">
+        <div class="card card-body">
 
-    <tbody>
-    {% for user in users %}
+            
+            <form method="post" action="{{ path('user_add') }}">
+
+                <input type="text" name="name" class="form-control mb-2"
+                       placeholder="Nom" required>
+
+                <input type="email" name="email" class="form-control mb-2"
+                       placeholder="Email" required>
+
+                
+                <input type="password" name="password" class="form-control mb-2"
+                       placeholder="Mot de passe" required>
+                <input type="text" name="role" class="form-control mb-2"
+       placeholder="ROLE_USER" required>
+                <button class="btn btn-success">Ajouter</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- 📋 TABLE -->
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
         <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-
-            <td class="d-flex gap-2">
-
-                <a href="{{ path('user_edit', {id: user.id}) }}"
-                   class="btn btn-warning btn-sm">
-                    Modifier
-                </a>
-
-                <a href="{{ path('user_delete', {id: user.id}) }}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Supprimer ?')">
-                    Supprimer
-                </a>
-
-            </td>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+
+                <td class="d-flex gap-2">
+
+                    <!--  EDIT -->
+                    <a href="{{ path('user_edit', {id: user.id}) }}"
+                       class="btn btn-warning btn-sm">
+                        Modifier
+                    </a>
+
+                    <!--  DELETE -->
+                    <a href="{{ path('user_delete', {id: user.id}) }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Supprimer cet utilisateur ?')">
+                        Supprimer
+                    </a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
 
 {% endblock %}

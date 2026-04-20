@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -16,7 +16,6 @@ class UserController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $search = $request->query->get('search');
-
         $repo = $em->getRepository(User::class);
 
         if ($search) {
@@ -35,13 +34,29 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/add', name: 'user_add', methods: ['POST'])]
-    public function add(Request $request, EntityManagerInterface $em): Response
+    public function add(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $hasher
+    ): Response
     {
         $user = new User();
+
         $user->setName($request->request->get('name'));
         $user->setEmail($request->request->get('email'));
-        $user->setPassword($request->request->get('password'));
-        $user->setRole('user');
+
+        // 🔐 PASSWORD HASH
+        $plainPassword = $request->request->get('password');
+
+        if (!$plainPassword) {
+            dd("Password vide !");
+        }
+
+        $user->setPassword(
+            $hasher->hashPassword($user, $plainPassword)
+        );
+
+        $user->setRole('ROLE_USER');
 
         $em->persist($user);
         $em->flush();
@@ -50,12 +65,27 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/edit/{id}', name: 'user_edit')]
-    public function edit(User $user, Request $request, EntityManagerInterface $em): Response
+    public function edit(
+        User $user,
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $hasher
+    ): Response
     {
         if ($request->isMethod('POST')) {
+
             $user->setName($request->request->get('name'));
             $user->setEmail($request->request->get('email'));
-            $user->setPassword($request->request->get('password'));
+
+            // 🔐 PASSWORD (uniquement si rempli)
+            $plainPassword = $request->request->get('password');
+
+            if ($plainPassword) {
+                $user->setPassword(
+                    $hasher->hashPassword($user, $plainPassword)
+                );
+            }
+
             $user->setRole($request->request->get('role'));
 
             $em->flush();

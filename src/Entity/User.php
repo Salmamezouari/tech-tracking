@@ -7,10 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -29,10 +30,7 @@ class User implements UserInterface
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
-    /**
-     * @var Collection<int, Intervention>
-     */
-    #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: 'assignedTechnician')]
+    #[ORM\OneToMany(mappedBy: 'assignedTechnician', targetEntity: Intervention::class)]
     private Collection $interventions;
 
     public function __construct()
@@ -40,28 +38,28 @@ class User implements UserInterface
         $this->interventions = new ArrayCollection();
     }
 
-    // =====================
-    // REQUIRED BY SYMFONY SECURITY
-    // =====================
+    // ================= SECURITY =================
 
     public function getUserIdentifier(): string
     {
         return $this->email;
     }
 
-    public function eraseCredentials(): void
-    {
-        // nothing for now
-    }
-
     public function getRoles(): array
     {
-        return [$this->role];
+        return [$this->role ?? 'ROLE_USER'];
     }
 
-    // =====================
-    // GETTERS / SETTERS
-    // =====================
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    // ================= GETTERS / SETTERS =================
 
     public function getId(): ?int
     {
@@ -90,11 +88,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -112,32 +105,8 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Intervention>
-     */
     public function getInterventions(): Collection
     {
         return $this->interventions;
-    }
-
-    public function addIntervention(Intervention $intervention): static
-    {
-        if (!$this->interventions->contains($intervention)) {
-            $this->interventions->add($intervention);
-            $intervention->setAssignedTechnician($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIntervention(Intervention $intervention): static
-    {
-        if ($this->interventions->removeElement($intervention)) {
-            if ($intervention->getAssignedTechnician() === $this) {
-                $intervention->setAssignedTechnician(null);
-            }
-        }
-
-        return $this;
     }
 }
