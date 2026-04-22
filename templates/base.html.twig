@@ -14,7 +14,25 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="/users">Tech Tracking</a>
+
+    <a class="navbar-brand" href="/">Tech Tracking</a>
+
+    <div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/dashboard" class="btn btn-light">Dashboard</a>
+            <a href="/users" class="btn btn-light">Users</a>
+            <a href="/interventions" class="btn btn-light">Interventions</a>
+        {% endif %}
+
+        {% if is_granted('ROLE_TECH') %}
+            <a href="/mes-interventions" class="btn btn-light">Mes interventions</a>
+        {% endif %}
+
+        {% if app.user %}
+            <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+        {% endif %}
+    </div>
+
 </nav>
 
 <div class="container mt-3">

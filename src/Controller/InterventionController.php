@@ -15,6 +15,7 @@ class InterventionController extends AbstractController
     #[Route('/interventions', name: 'interventions_list')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
+        
         $search = $request->query->get('search');
 
         $repo = $em->getRepository(Intervention::class);
@@ -38,6 +39,9 @@ class InterventionController extends AbstractController
     #[Route('/interventions/add', name: 'intervention_add', methods: ['POST'])]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+    throw $this->createAccessDeniedException();
+    }
         $i = new Intervention();
 
         $i->setTitle($request->request->get('title'));
@@ -63,6 +67,9 @@ class InterventionController extends AbstractController
     #[Route('/interventions/edit/{id}', name: 'intervention_edit')]
     public function edit(Intervention $i, Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+    throw $this->createAccessDeniedException();
+    }
         if ($request->isMethod('POST')) {
 
             $i->setTitle($request->request->get('title'));
@@ -84,9 +91,23 @@ class InterventionController extends AbstractController
     #[Route('/interventions/delete/{id}', name: 'intervention_delete')]
     public function delete(Intervention $i, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+    throw $this->createAccessDeniedException();
+}
         $em->remove($i);
         $em->flush();
 
         return $this->redirectToRoute('interventions_list');
     }
+    #[Route('/intervention/status/{id}', name: 'intervention_status', methods: ['POST'])]
+public function updateStatus($id, Request $request, EntityManagerInterface $em): Response
+{
+    $intervention = $em->getRepository(Intervention::class)->find($id);
+
+    $intervention->setStatus($request->request->get('status'));
+
+    $em->flush();
+
+    return $this->redirectToRoute('tech_interventions');
+}
 }

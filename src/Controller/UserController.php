@@ -56,8 +56,7 @@ class UserController extends AbstractController
             $hasher->hashPassword($user, $plainPassword)
         );
 
-        $user->setRole('ROLE_USER');
-
+        $user->setRole($request->request->get('role'));
         $em->persist($user);
         $em->flush();
 

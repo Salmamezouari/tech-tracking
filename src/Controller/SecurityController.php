@@ -10,23 +10,33 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+public function login(AuthenticationUtils $authenticationUtils): Response
+{
+    if ($this->getUser()) {
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $roles = $this->getUser()->getRoles();
 
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
+        if (in_array('ROLE_ADMIN', $roles)) {
+            return $this->redirectToRoute('dashboard');
+        }
+
+        if (in_array('ROLE_TECH', $roles)) {
+            return $this->redirectToRoute('tech_interventions');
+        }
+
+        return $this->redirectToRoute('app_login');
     }
+
+    return $this->render('security/login.html.twig', [
+        'last_username' => $authenticationUtils->getLastUsername(),
+        'error' => $authenticationUtils->getLastAuthenticationError(),
+    ]);
+}
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException('Intercepted by firewall.');
     }
+    
 }

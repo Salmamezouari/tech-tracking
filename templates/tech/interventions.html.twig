@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h2>Mes interventions</h2>
+
+<table class="table">
+    <tr>
+        <th>Titre</th>
+        <th>Client</th>
+        <th>Status</th>
+    </tr>
+
+    {% for i in interventions %}
+        <tr>
+            <td>{{ i.title }}</td>
+            <td>{{ i.clientName }}</td>
+            <td>{{ i.status }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

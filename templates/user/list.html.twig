@@ -35,8 +35,11 @@
                 
                 <input type="password" name="password" class="form-control mb-2"
                        placeholder="Mot de passe" required>
-                <input type="text" name="role" class="form-control mb-2"
-       placeholder="ROLE_USER" required>
+                <select name="role" class="form-control mb-2" required>
+    <option value="ROLE_USER">User</option>
+    <option value="ROLE_ADMIN">Admin</option>
+    <option value="ROLE_TECH">Technicien</option>
+</select>
                 <button class="btn btn-success">Ajouter</button>
 
             </form>

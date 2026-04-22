@@ -40,16 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // ================= SECURITY =================
 
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
-    }
-
     public function getRoles(): array
-    {
-        return [$this->role ?? 'ROLE_USER'];
-    }
+{
+    return [$this->role];
+}
 
+public function getUserIdentifier(): string
+{
+    return $this->email;
+}
     public function eraseCredentials(): void
     {
     }
