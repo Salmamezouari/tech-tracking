@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>{% block title %}FiberTrack{% endblock %}</title>
 
-    <title>{% block title %}App{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- BOOTSTRAP CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-    {% block stylesheets %}{% endblock %}
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+  {% block stylesheets %}{% endblock %}
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark px-3">
+<nav class="navbar navbar-dark px-3">
 
-    <a class="navbar-brand" href="/">Tech Tracking</a>
+  <a class="navbar-brand" href="/">⚡ FiberTrack</a>
 
-    <div>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="/dashboard" class="btn btn-light">Dashboard</a>
-            <a href="/users" class="btn btn-light">Users</a>
-            <a href="/interventions" class="btn btn-light">Interventions</a>
-        {% endif %}
+  <div>
 
-        {% if is_granted('ROLE_TECH') %}
-            <a href="/mes-interventions" class="btn btn-light">Mes interventions</a>
-        {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+      <a href="/dashboard" class="btn btn-primary btn-sm">Dashboard</a>
+      <a href="/users" class="btn btn-primary btn-sm">Users</a>
+      <a href="/interventions" class="btn btn-primary btn-sm">Interventions</a>
+    {% endif %}
 
-        {% if app.user %}
-            <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
-        {% endif %}
-    </div>
+    {% if is_granted('ROLE_TECH') %}
+      <a href="/mes-interventions" class="btn btn-primary btn-sm">Mes interventions</a>
+    {% endif %}
+
+    {% if app.user %}
+      <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">Logout</a>
+    {% endif %}
+
+  </div>
 
 </nav>
 
-<div class="container mt-3">
-    {% block body %}{% endblock %}
+<div class="container mt-4">
+  {% block body %}{% endblock %}
 </div>
-
-<!-- 🔥 IMPORTANT -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

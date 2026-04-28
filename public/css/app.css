@@ -1,0 +1,132 @@
+/* ============================================================
+   FIBERTRACK — UI SYSTEM (Dashboard Theme)
+============================================================ */
+
+body {
+  background: #0a0f1e;
+  color: #cfe8ff;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+  background: rgba(10, 16, 30, 0.95) !important;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  font-family: 'Share Tech Mono', monospace;
+  color: #00c8ff !important;
+  letter-spacing: 0.15em;
+}
+
+/* BUTTONS NAV */
+.navbar .btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+/* CARDS GLOBAL */
+.card {
+  background: rgba(10, 16, 40, 0.85);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 200, 255, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 200, 255, 0.08);
+}
+
+/* DASHBOARD CARDS */
+.stat-card {
+  padding: 20px;
+  border-radius: 6px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card h3 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+}
+
+.stat-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* BLUE CARD */
+.stat-blue {
+  background: linear-gradient(135deg, rgba(0,200,255,0.25), rgba(0,100,255,0.15));
+  border: 1px solid rgba(0,200,255,0.3);
+}
+
+/* GREEN CARD */
+.stat-green {
+  background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,200,120,0.1));
+  border: 1px solid rgba(0,255,136,0.25);
+}
+
+/* TITLES */
+h1, h2 {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.08em;
+}
+
+/* TABLE */
+.table {
+  color: #cfe8ff;
+  background: rgba(10, 16, 30, 0.6);
+  border: 1px solid rgba(0, 200, 255, 0.1);
+}
+
+.table thead {
+  background: rgba(0, 200, 255, 0.1);
+  color: #00c8ff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.table tbody tr:hover {
+  background: rgba(0, 200, 255, 0.05);
+}
+
+/* BADGES */
+.badge {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* BUTTONS */
+.btn-primary {
+  background: rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+}
+
+.btn-primary:hover {
+  background: rgba(0, 200, 255, 0.25);
+}
+
+.btn-success {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+}
+
+.btn-warning {
+  background: rgba(255, 160, 0, 0.15);
+}
+
+.btn-danger {
+  background: rgba(255, 60, 60, 0.15);
+}

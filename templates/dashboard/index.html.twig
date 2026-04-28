@@ -1,26 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard FiberTrack{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-<h1 class="mb-4">📊 Dashboard</h1>
+<h1 class="mb-4">📊 Dashboard réseau</h1>
 
-<div class="row">
+<div class="row g-3">
 
-    <div class="col-md-6">
-        <div class="card p-3 bg-primary text-white">
-            <h3>👤 Users</h3>
-            <h2>{{ users }}</h2>
-        </div>
+  <div class="col-md-6">
+    <div class="stat-card stat-blue">
+      <h3>👤 USERS ACTIFS</h3>
+      <h2>{{ users }}</h2>
     </div>
+  </div>
 
-    <div class="col-md-6">
-        <div class="card p-3 bg-success text-white">
-            <h3>🛠️ Interventions</h3>
-            <h2>{{ interventions }}</h2>
-        </div>
+  <div class="col-md-6">
+    <div class="stat-card stat-green">
+      <h3>🛠 INTERVENTIONS</h3>
+      <h2>{{ interventions }}</h2>
     </div>
+  </div>
 
 </div>
 

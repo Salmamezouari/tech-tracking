@@ -1,116 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Interventions{% endblock %}
+{% block title %}Interventions FiberTrack{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<h2 class="mb-3">🛠 Gestion des interventions</h2>
 
-<h2 class="mb-3">Liste des interventions</h2>
-
-<!--  SEARCH -->
+<!-- SEARCH -->
 <form method="get" class="mb-3 d-flex gap-2">
-    <input type="text" name="search" class="form-control"
-           placeholder="Rechercher par titre ou client...">
-    <button class="btn btn-primary">Search</button>
+  <input type="text" name="search" class="form-control"
+         placeholder="Rechercher client / titre">
+  <button class="btn btn-primary">Search</button>
 </form>
 
-<!--  ADD -->
-<form method="post" action="{{ path('intervention_add') }}" class="mb-4">
+<!-- ADD FORM -->
+<div class="card p-3 mb-4">
+  <h5>➕ Nouvelle intervention</h5>
 
-    <input type="text" name="title" class="form-control mb-2" placeholder="Titre" required>
+  <form method="post" action="{{ path('intervention_add') }}">
 
-    <input type="text" name="client_name" class="form-control mb-2" placeholder="Client" required>
+    <input type="text" name="title" class="form-control mb-2" placeholder="Titre">
+
+    <input type="text" name="client_name" class="form-control mb-2" placeholder="Client">
 
     <input type="text" name="address" class="form-control mb-2" placeholder="Adresse">
 
-    <!--  STATUS -->
     <select name="status" class="form-control mb-2">
-        <option value="pending">Pending</option>
-        <option value="in_progress">In progress</option>
-        <option value="done">Done</option>
+      <option value="pending">⏳ Pending</option>
+      <option value="in_progress">🔧 In progress</option>
+      <option value="done">✅ Done</option>
     </select>
 
-    <!--  DATE -->
-    <input type="datetime-local" name="scheduled_date" class="form-control mb-2" required>
+    <input type="datetime-local" name="scheduled_date" class="form-control mb-2">
 
-    <!--  TECHNICIEN -->
     <select name="tech" class="form-control mb-2">
-        <option value="">Choisir technicien</option>
-
-        {% for user in users %}
-            <option value="{{ user.id }}">
-                {{ user.name }}
-            </option>
-        {% endfor %}
+      <option value="">Choisir technicien</option>
+      {% for user in users %}
+        <option value="{{ user.id }}">{{ user.name }}</option>
+      {% endfor %}
     </select>
 
-    <button class="btn btn-success">Ajouter</button>
-</form>
+    <button class="btn btn-success w-100">Ajouter intervention</button>
 
-<!--  TABLE -->
-<table class="table table-bordered table-hover">
+  </form>
+</div>
 
-    <thead class="table-dark">
+<!-- TABLE -->
+<div class="card p-3">
+
+<table class="table table-hover align-middle">
+
+  <thead>
     <tr>
-        <th>ID</th>
-        <th>Titre</th>
-        <th>Client</th>
-        <th>Adresse</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Technicien</th>
-        <th>Actions</th>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Client</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Tech</th>
+      <th>Actions</th>
     </tr>
-    </thead>
+  </thead>
 
-    <tbody>
-    {% for i in interventions %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.title }}</td>
-            <td>{{ i.clientName }}</td>
-            <td>{{ i.address }}</td>
+  <tbody>
+  {% for i in interventions %}
+    <tr>
+      <td>{{ i.id }}</td>
+      <td>{{ i.title }}</td>
+      <td>{{ i.clientName }}</td>
 
-            
-            <td>
-                {% if i.status == 'pending' %}
-                    <span class="badge bg-warning">Pending</span>
-                {% elseif i.status == 'in_progress' %}
-                    <span class="badge bg-primary">In progress</span>
-                {% elseif i.status == 'done' %}
-                    <span class="badge bg-success">Done</span>
-                {% endif %}
-            </td>
+      <td>
+        {% if i.status == 'pending' %}
+          <span class="badge bg-warning">Pending</span>
+        {% elseif i.status == 'in_progress' %}
+          <span class="badge bg-primary">In progress</span>
+        {% else %}
+          <span class="badge bg-success">Done</span>
+        {% endif %}
+      </td>
 
-            <td>{{ i.scheduledDate|date('Y-m-d H:i') }}</td>
+      <td>{{ i.scheduledDate|date('Y-m-d H:i') }}</td>
 
-            <td>
-                {% if i.assignedTechnician %}
-                    {{ i.assignedTechnician.name }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
+      <td>
+        {{ i.assignedTechnician ? i.assignedTechnician.name : '-' }}
+      </td>
 
-            <td class="d-flex gap-2">
+      <td class="d-flex gap-2">
+        <a class="btn btn-warning btn-sm" href="{{ path('intervention_edit', {id: i.id}) }}">Edit</a>
+        <a class="btn btn-danger btn-sm" href="{{ path('intervention_delete', {id: i.id}) }}">Del</a>
+      </td>
 
-                <!--  EDIT -->
-                <a href="{{ path('intervention_edit', {id: i.id}) }}"
-                   class="btn btn-warning btn-sm">
-                    Modifier
-                </a>
-
-                <!--  DELETE -->
-                <a href="{{ path('intervention_delete', {id: i.id}) }}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Supprimer ?')">
-                    Supprimer
-                </a>
-
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
+    </tr>
+  {% endfor %}
+  </tbody>
 
 </table>
+
+</div>
 
 {% endblock %}
