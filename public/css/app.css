@@ -68,7 +68,7 @@ body {
 /* BLUE CARD */
 .stat-blue {
   background: linear-gradient(135deg, rgba(0,200,255,0.25), rgba(0,100,255,0.15));
-  border: 1px solid rgba(0,200,255,0.3);
+  border: 1px solid rgba(82, 84, 85, 0.736);
 }
 
 /* GREEN CARD */
@@ -129,4 +129,171 @@ h1, h2 {
 
 .btn-danger {
   background: rgba(255, 60, 60, 0.15);
+}
+/* ============================================================
+   FIBERTRACK — UI UPGRADE LAYER (NE PAS MODIFIER BASE)
+============================================================ */
+
+/* =========================
+   LOGIN / DASHBOARD OVERLAY STYLE
+========================= */
+
+.ft-glow {
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.15);
+}
+
+.ft-grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 200, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* =========================
+   MODERN LOGIN STYLE (si réutilisé)
+========================= */
+
+.ft-login-card {
+  background: rgba(10, 16, 40, 0.94);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 6px;
+  padding: 2rem;
+  position: relative;
+}
+
+.ft-login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00c8ff, #0066ff, transparent);
+}
+
+/* ADMIN MODE COLOR SHIFT */
+.ft-admin {
+  border-color: rgba(255, 160, 0, 0.3) !important;
+}
+
+.ft-admin::before {
+  background: linear-gradient(90deg, transparent, #ffa000, #ff6000, transparent);
+}
+
+/* =========================
+   ROLE BUTTON SYSTEM
+========================= */
+
+.ft-role-btn {
+  background: rgba(0, 200, 255, 0.04);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  padding: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ft-role-btn:hover {
+  border-color: rgba(0, 200, 255, 0.4);
+  background: rgba(0, 200, 255, 0.07);
+}
+
+.ft-role-btn.active-tech {
+  border-color: rgba(0, 200, 255, 0.6);
+  color: #00c8ff;
+}
+
+.ft-role-btn.active-admin {
+  border-color: rgba(255, 160, 0, 0.6);
+  color: #ffa000;
+  background: rgba(255, 160, 0, 0.08);
+}
+
+/* =========================
+   FIELD INPUT STYLE (LOGIN UPGRADE)
+========================= */
+
+.ft-input-wrap {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 200, 255, 0.04);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.ft-input-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #cfe8ff;
+  width: 100%;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* =========================
+   STATUS DOTS / ANIMATIONS
+========================= */
+
+.ft-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: ft-pulse 2s infinite;
+}
+
+@keyframes ft-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.6); opacity: 0.3; }
+}
+
+/* COLORS STATUS */
+.ft-dot-blue { background: #00c8ff; }
+.ft-dot-green { background: #00ff88; }
+.ft-dot-orange { background: #ffa000; }
+
+/* =========================
+   NETWORK MAP UPGRADE
+========================= */
+
+.ft-map {
+  background: rgba(10, 16, 30, 0.6);
+  border: 1px solid rgba(0, 200, 255, 0.1);
+  border-radius: 6px;
+  position: relative;
+}
+
+.ft-node {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
+}
+
+.ft-node-blue { background: #00c8ff; }
+.ft-node-green { background: #00ff88; }
+.ft-node-orange { background: #ffa000; }
+
+/* =========================
+   TEXT ENHANCEMENT
+========================= */
+
+.ft-mono {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.1em;
+}
+
+.ft-title {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.card {
+  color: #e6e9ec;
 }

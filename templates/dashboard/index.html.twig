@@ -1,27 +1,98 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard FiberTrack{% endblock %}
+{% block title %}FiberTrack Dashboard{% endblock %}
 
 {% block body %}
+
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-<h1 class="mb-4">📊 Dashboard réseau</h1>
+<div class="container-fluid p-4">
 
-<div class="row g-3">
+    <h1 class="text-info mb-4">📡 Dashboard  FiberTrack</h1>
 
-  <div class="col-md-6">
-    <div class="stat-card stat-blue">
-      <h3>👤 USERS ACTIFS</h3>
-      <h2>{{ users }}</h2>
+    <!-- ================= STATS ================= -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card stat-card stat-blue">
+                <h3 class="ShareTechMono">USERS ACTIFS</h3>
+                <h2>{{ users_count }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card stat-card stat-green">
+                <h3 class="ShareTechMono">INTERVENTIONS</h3>
+                <h2>{{ interventions_count }}</h2>
+            </div>
+        </div>
+
     </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="stat-card stat-green">
-      <h3>🛠 INTERVENTIONS</h3>
-      <h2>{{ interventions }}</h2>
+    <!-- ================= GRID ================= -->
+    <div class="row g-3">
+
+        <!-- USERS -->
+        <div class="col-md-4">
+            <div class="card p-3">
+
+                <h5 class="text-info ShareTechMono">Derniers utilisateurs</h5>
+
+                {% for user in latest_users %}
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <span>{{ user.email }}</span>
+                        <small class="text-muted">{{ user.roles|join(', ') }}</small>
+                    </div>
+                {% else %}
+                    <p>Aucun utilisateur</p>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- INTERVENTIONS -->
+        <div class="col-md-8">
+            <div class="card p-3">
+
+                <h5 class="text-info ShareTechMono">Dernières interventions</h5>
+
+                <table class="table table-sm">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titre</th>
+                            <th>Client</th>
+                            <th>Technicien</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for i in latest_interventions %}
+                            <tr>
+                                <td>#{{ i.id }}</td>
+                                <td>{{ i.title }}</td>
+                                <td>{{ i.clientName }}</td>
+                                <td>
+                                    {{ i.assignedTechnician ? i.assignedTechnician.email : 'Non assigné' }}
+                                </td>
+                                <td>{{ i.status }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">Aucune intervention</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
     </div>
-  </div>
 
 </div>
 

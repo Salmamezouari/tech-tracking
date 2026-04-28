@@ -14,9 +14,16 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'dashboard')]
     public function index(EntityManagerInterface $em): Response
     {
+        $userRepo = $em->getRepository(User::class);
+        $interRepo = $em->getRepository(Intervention::class);
+
         return $this->render('dashboard/index.html.twig', [
-            'users' => $em->getRepository(User::class)->count([]),
-            'interventions' => $em->getRepository(Intervention::class)->count([]),
+
+            'users_count' => $userRepo->count([]),
+            'interventions_count' => $interRepo->count([]),
+
+            'latest_users' => $userRepo->findBy([], ['id' => 'DESC'], 5),
+            'latest_interventions' => $interRepo->findBy([], ['id' => 'DESC'], 10),
         ]);
     }
 }
