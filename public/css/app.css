@@ -297,3 +297,21 @@ h1, h2 {
 .card {
   color: #e6e9ec;
 }
+.user-form.hidden {
+    display: none;
+}
+
+.user-form {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

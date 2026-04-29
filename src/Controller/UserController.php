@@ -76,7 +76,6 @@ class UserController extends AbstractController
             $user->setName($request->request->get('name'));
             $user->setEmail($request->request->get('email'));
 
-            // 🔐 PASSWORD (uniquement si rempli)
             $plainPassword = $request->request->get('password');
 
             if ($plainPassword) {
@@ -97,12 +96,12 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/users/delete/{id}', name: 'user_delete')]
-    public function delete(User $user, EntityManagerInterface $em): Response
-    {
-        $em->remove($user);
-        $em->flush();
+    #[Route('/users/delete/{id}', name: 'user_delete', methods: ['POST'])]
+public function delete(User $user, EntityManagerInterface $em): Response
+{
+    $em->remove($user);
+    $em->flush();
 
-        return $this->redirectToRoute('users_list');
-    }
+    return $this->redirectToRoute('users_list');
+}
 }

@@ -16,11 +16,8 @@
     </form>
 
     <!--  ADD USER -->
-    <button class="btn btn-success mb-3" data-bs-toggle="collapse" data-bs-target="#addForm">
-        Ajouter utilisateur
-    </button>
+    
 
-    <div id="addForm" class="collapse mb-3">
         <div class="card card-body">
 
             
@@ -36,9 +33,9 @@
                 <input type="password" name="password" class="form-control mb-2"
                        placeholder="Mot de passe" required>
                 <select name="role" class="form-control mb-2" required>
-    <option value="ROLE_USER">User</option>
-    <option value="ROLE_ADMIN">Admin</option>
-    <option value="ROLE_TECH">Technicien</option>
+                <option value="ROLE_USER">User</option>
+                <option value="ROLE_ADMIN">Admin</option>
+                 <option value="ROLE_TECH">Technicien</option>
 </select>
                 <button class="btn btn-success">Ajouter</button>
 
@@ -51,7 +48,7 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
+            
             <th>Nom</th>
             <th>Email</th>
             <th>Role</th>
@@ -62,32 +59,43 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
+                
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
 
                 <td class="d-flex gap-2">
 
-                    <!--  EDIT -->
-                    <a href="{{ path('user_edit', {id: user.id}) }}"
-                       class="btn btn-warning btn-sm">
-                        Modifier
-                    </a>
+    <!-- EDIT -->
+    <a href="{{ path('user_edit', {id: user.id}) }}"
+       class="btn btn-warning btn-sm">
+        Modifier
+    </a>
 
-                    <!--  DELETE -->
-                    <a href="{{ path('user_delete', {id: user.id}) }}"
-                       class="btn btn-danger btn-sm"
-                       onclick="return confirm('Supprimer cet utilisateur ?')">
-                        Supprimer
-                    </a>
+    <!-- DELETE (NEW VERSION) -->
+    <form method="post"
+          action="{{ path('user_delete', {id: user.id}) }}"
+          onsubmit="return confirm('Supprimer cet utilisateur ?')"
+          style="display:inline;">
 
-                </td>
+        <button class="btn btn-danger btn-sm" type="submit">
+            Supprimer
+        </button>
+
+    </form>
+
+</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
 </div>
+<script>
+function toggleUserForm() {
+    const form = document.getElementById('addForm');
+    form.classList.toggle('hidden');
+}
+</script>
 
 {% endblock %}

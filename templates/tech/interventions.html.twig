@@ -1,23 +1,107 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Espace Technicien{% endblock %}
+
 {% block body %}
 
-<h2>Mes interventions</h2>
+<div class="container mt-4">
 
-<table class="table">
-    <tr>
-        <th>Titre</th>
-        <th>Client</th>
-        <th>Status</th>
-    </tr>
+    <h2 class="mb-4">🛠 Mes interventions</h2>
 
-    {% for i in interventions %}
-        <tr>
-            <td>{{ i.title }}</td>
-            <td>{{ i.clientName }}</td>
-            <td>{{ i.status }}</td>
-        </tr>
-    {% endfor %}
-</table>
+    <div class="card p-3 mb-4">
+        <div class="d-flex justify-content-between">
+            <div>
+                <strong>Résumé</strong>
+                <p class="text-muted mb-0">Interventions assignées à vous</p>
+            </div>
+
+            <div>
+                <span class="badge bg-warning">
+                    Pending : {{ interventions|filter(i => i.status == 'pending')|length }}
+                </span>
+                <span class="badge bg-primary">
+                    En cours : {{ interventions|filter(i => i.status == 'in_progress')|length }}
+                </span>
+                <span class="badge bg-success">
+                    Terminées : {{ interventions|filter(i => i.status == 'done')|length }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Titre</th>
+                <th>Client</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for i in interventions %}
+
+            <tr>
+
+                <td>
+                    <strong>{{ i.title }}</strong><br>
+                    <small class="text-muted">{{ i.address }}</small>
+                </td>
+
+                <td>{{ i.clientName }}</td>
+
+                <td>
+                    {% if i.status == 'pending' %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% elseif i.status == 'in_progress' %}
+                        <span class="badge bg-primary">In progress</span>
+                    {% else %}
+                        <span class="badge bg-success">Done</span>
+                    {% endif %}
+                </td>
+
+                <td>
+
+                    <!-- UPDATE STATUS -->
+                    <form method="post" action="{{ path('intervention_status', {id: i.id}) }}" class="d-flex gap-2">
+
+                        <select name="status" class="form-select form-select-sm">
+
+                            <option value="pending" {% if i.status == 'pending' %}selected{% endif %}>Pending</option>
+
+                            <option value="in_progress" {% if i.status == 'in_progress' %}selected{% endif %}>In progress</option>
+
+                            <option value="done" {% if i.status == 'done' %}selected{% endif %}>Done</option>
+
+                        </select>
+
+                        <button class="btn btn-sm btn-success">
+                            OK
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        {% else %}
+
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    Aucune intervention assignée
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
 
 {% endblock %}

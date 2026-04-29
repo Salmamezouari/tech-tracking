@@ -64,30 +64,50 @@ class InterventionController extends AbstractController
         return $this->redirectToRoute('interventions_list');
     }
 
-    #[Route('/interventions/edit/{id}', name: 'intervention_edit')]
-    public function edit(Intervention $i, Request $request, EntityManagerInterface $em): Response
-    {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-    throw $this->createAccessDeniedException();
+   #[Route('/interventions/edit/{id}', name: 'intervention_edit')]
+public function edit(
+    Intervention $i,
+    Request $request,
+    EntityManagerInterface $em
+): Response
+{
+    if (!$this->isGranted('ROLE_ADMIN')) {
+        throw $this->createAccessDeniedException();
     }
-        if ($request->isMethod('POST')) {
 
-            $i->setTitle($request->request->get('title'));
-            $i->setDescription($request->request->get('description'));
-            $i->setClientName($request->request->get('client_name'));
-            $i->setAddress($request->request->get('address'));
-            $i->setStatus($request->request->get('status'));
+    if ($request->isMethod('POST')) {
 
-            $em->flush();
+        $i->setTitle($request->request->get('title'));
+        $i->setDescription($request->request->get('description'));
+        $i->setClientName($request->request->get('client_name'));
+        $i->setAddress($request->request->get('address'));
+        $i->setStatus($request->request->get('status'));
 
-            return $this->redirectToRoute('interventions_list');
+        // 📅 DATE
+        $date = $request->request->get('scheduled_date');
+        if ($date) {
+            $i->setScheduledDate(new \DateTime($date));
         }
 
-        return $this->render('intervention/edit.html.twig', [
-            'intervention' => $i
-        ]);
+        // 👨‍🔧 TECHNICIEN
+        $techId = $request->request->get('tech');
+        if ($techId) {
+            $tech = $em->getRepository(User::class)->find($techId);
+            $i->setAssignedTechnician($tech);
+        } else {
+            $i->setAssignedTechnician(null);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('interventions_list');
     }
 
+    return $this->render('intervention/edit.html.twig', [
+        'intervention' => $i,
+        'users' => $em->getRepository(User::class)->findAll()
+    ]);
+}
     #[Route('/interventions/delete/{id}', name: 'intervention_delete')]
     public function delete(Intervention $i, EntityManagerInterface $em): Response
     {
